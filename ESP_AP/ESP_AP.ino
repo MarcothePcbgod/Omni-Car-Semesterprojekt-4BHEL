@@ -7,20 +7,20 @@
 
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
-//---------------------------------------Befehls-Arrays
-const int TASK_FORWARD[] = {0, 0, 0, 0};              //F
-const int TASK_LEFTUP[] = {0, 0, 0, 1};               //LU
-const int TASK_RIGHTUP[] = {0, 0, 1, 0};              //RU
+//---------------------------------------Befehls-Arrays // IN HEX ANGEBEN
+const byte TASK_FORWARD = 0x00;         //F
+const byte TASK_LEFTUP = 0x01;               //LU
+const byte TASK_RIGHTUP = 0x02;              //RU
 
-const int TASK_LEFT[] = {0, 0, 1, 1};                 //L
-const int TASK_RIGHT[] = {0, 1, 0, 0};                //R
+const byte TASK_LEFT = 0x03;                 //L
+const byte TASK_RIGHT = 0x04;                //R
 
-const int TASK_BACKWARD[] = {0, 1, 0, 1};             //B
-const int TASK_LEFTDOWN[] = {0, 1, 1, 0};             //LD
-const int TASK_RIGHTDOWN[] = {0, 1, 1, 1};            //RD
+const byte TASK_BACKWARD = 0x05;             //B
+const byte TASK_LEFTDOWN = 0x06;             //LD
+const byte TASK_RIGHTDOWN = 0x07;            //RD
 
-const int TASK_ROTATERIGHT[] = {1, 0, 0, 0};          //RR
-const int TASK_ROTATELEFT[] = {1, 0, 0, 1};           //RL
+const byte TASK_ROTATERIGHT = 0x08;          //RR
+const byte TASK_ROTATELEFT = 0x09;           //RL
 
 //---------------------------------------WLAN Daten
 const char *ssid = "OMNI_WIFI";
@@ -54,83 +54,56 @@ void handleTaskRequest() {
   String direction = server.arg("dir");
 
   if (direction.equals("F")) {
-    for (int i = 0; i < 4; i++) {
-      Serial.println(TASK_FORWARD[i]);
-    }
+    Serial.println(TASK_FORWARD,HEX);
     server.send(200, "text / plain", "Task: Forward");
   }
   else if (direction.equals("LU")) {
-    for (int i = 0; i < 4; i++) {
-      Serial.println(TASK_LEFTUP[i]);
-    }
+    Serial.println(TASK_LEFTUP,HEX);
     server.send(200, "text / plain", "Task: LEFTUP");
   }
-
   else if (direction.equals("RU")) {
-    for (int i = 0; i < 4; i++) {
-      Serial.println(TASK_RIGHTUP[i]);
-    }
+    Serial.println(TASK_RIGHTUP,HEX);
     server.send(200, "text / plain", "Task: RIGHTUP");
   }
-
   else if (direction.equals("L")) {
-    for (int i = 0; i < 4; i++) {
-      Serial.println(TASK_LEFT[i]);
-    }
+    Serial.println(TASK_LEFT,HEX);
     server.send(200, "text / plain", "Task: LEFT");
   }
   else if (direction.equals("R")) {
-    for (int i = 0; i < 4; i++) {
-      Serial.println(TASK_RIGHT[i]);
-    }
+    Serial.println(TASK_RIGHT,HEX);
     server.send(200, "text / plain", "Task: RIGHT");
   }
-
   else if (direction.equals("B")) {
-    for (int i = 0; i < 4; i++) {
-      Serial.println(TASK_BACKWARD[i]);
-    }
+    Serial.println(TASK_BACKWARD,HEX);
     server.send(200, "text / plain", "Task: BACKWARD");
   }
   else if (direction.equals("LD")) {
-    for (int i = 0; i < 4; i++) {
-      Serial.println(TASK_LEFTDOWN[i]);
-    }
+    Serial.println(TASK_LEFTDOWN,HEX);
     server.send(200, "text / plain", "Task: LEFTDOWN");
   }
-
   else if (direction.equals("RD")) {
-    for (int i = 0; i < 4; i++) {
-      Serial.println(TASK_RIGHTDOWN[i]);
-    }
+    Serial.println(TASK_RIGHTDOWN,HEX);
     server.send(200, "text / plain", "Task: RIGHTDOWN");
   }
-
   else if (direction.equals("RR")) {
-    for (int i = 0; i < 4; i++) {
-      Serial.println(TASK_ROTATERIGHT[i]);
-    }
+    Serial.println(TASK_ROTATERIGHT,HEX);
     server.send(200, "text / plain", "Task: ROTATERIGHT");
   }
-
   else if (direction.equals("RL")) {
-    for (int i = 0; i < 4; i++) {
-      Serial.println(TASK_ROTATELEFT[i]);
-    }
+    Serial.println(TASK_ROTATELEFT,HEX);
     server.send(200, "text / plain", "Task: ROTATELEFT");
   }
   else {
     server.send(404, "text / plain", "Task: undefined");
   }
 }
+  //-------------------------------------------------------- Sonderfall
 
-//-------------------------------------------------------- Sonderfall
+  void handleNotFound() {
+    server.send(404, "text / plain", "404: Not found");
+  }
+  //-------------------------------------------------------
 
-void handleNotFound() {
-  server.send(404, "text / plain", "404: Not found");
-}
-//-------------------------------------------------------
-
-void loop() {
-  server.handleClient();
-}
+  void loop() {
+    server.handleClient();
+  }
