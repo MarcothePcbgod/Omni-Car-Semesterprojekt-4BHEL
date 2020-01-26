@@ -1,76 +1,83 @@
 # Desktop-Anwendung zur Datenübertragung auf einen ESP8266
 #
+#   26.01.2020 :
+#   Buttons entfernt und auf Keybindevents geandert
+#
 #By Marco Stundner
 
 
-
-from Tkinter import *
+import tkinter as tk
+from tkinter import ttk
 import os
 import urllib
 
-#------------------------------------------ Def vom GUI-Fenster
-root = Tk()
+#------------------------------------------------------------ Def vom GUI-Fenster
+root = tk.Tk()
+style = ttk.Style()
+style.configure('.', font='Arial 14')
 root.title('ESP GUI')
 root.iconbitmap('C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/tgm_logo.ico')
 #root.geometry("600x600")
-#-----------------------------------------
-#------------------------------------------------------- Def von Task-Functions
+#--------------------------------------------------------------
+#-------------------------------------------------------------- Def von Request-Functions
 def Forward():                               
-    urllib.urlopen('http://192.168.4.1:8080/task?dir=F')
+    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=F')
 def LeftUp():                               
-    urllib.urlopen('http://192.168.4.1:8080/task?dir=LU')
+    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=LU')
 def RightUp():                               
-    urllib.urlopen('http://192.168.4.1:8080/task?dir=RU')
+    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=RU')
 def Left():                               
-    urllib.urlopen('http://192.168.4.1:8080/task?dir=L')
+    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=L')
 def Right():                               
-    urllib.urlopen('http://192.168.4.1:8080/task?dir=R')
+    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=R')
 def LeftDown():                               
-    urllib.urlopen('http://192.168.4.1:8080/task?dir=LD')
+    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=LD')
 def RigthDown():                               
-    urllib.urlopen('http://192.168.4.1:8080/task?dir=RD')
+    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=RD')
 def Backward():                               
-    urllib.urlopen('http://192.168.4.1:8080/task?dir=B')
+    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=B')
 def RotateLeft():                               
-    urllib.urlopen('http://192.168.4.1:8080/task?dir=RL')
+    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=RL')
 def RotateRight():                               
-    urllib.urlopen('http://192.168.4.1:8080/task?dir=RR')
+    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=RR')
+#-------------------------------------------------------------- Def von Key event functions
+def key_press(event):
+    key = event.char
+    if(key == 'w'):
+        #Forward()
+        print("Task: Forward")
+    elif(key == 'q'):
+        #LeftUp()
+        print("Task: LeftUp")
+    elif(key == 'e'):
+       # RightUp()
+        print("Task: RightUp")
+    elif(key == 'a'):
+      #  Left()
+        print("Task: Left")
+    elif(key == 'd'):
+      #  Right()
+        print("Task: Right")
+    elif(key == 's'):
+      #  Backward()
+        print("Task: Backward")
+    elif(key == 'y'):
+      #  LeftDown()
+        print("Task: LeftDown")
+    elif(key == 'x'):
+       # RigthDown()
+        print("Task: RightDown")
+    elif(key == 'f'):
+      #  RotateLeft()
+        print("Task: RotateLeft")
+    elif(key == 'g'):
+      #  RotateRight()
+        print("Task: RotateLeft")
 #---------------------------------------------------------
 #--------------------------------------------------------- Erstellt ein Label
-myLabel = Label(root, text="OMNI-Car Steuerung")
-myLabel.grid(row=0, column=12)
-#--------------------------------------------------------------- Erstellt Buttons für die Tasks
-myButtonForward = Button(root, text="Forward", padx=30, pady=30, command=Forward, bg="gray")
-myButtonForward.grid(row=7, column=12)
-myLabelDist1 = Label(root, text=" ")
-myLabelDist1.grid(row=7, column=3)
-
-myButtonLeftUp = Button(root, text="LeftUp", padx=30, pady=30, command=LeftUp, bg="gray")
-myButtonLeftUp.grid(row=7, column=3)
-
-myButtonRightUp = Button(root, text="RightUp", padx=30, pady=30, command=RightUp, bg="gray")
-myButtonRightUp.grid(row=7, column=16)
-
-myButtonLeft = Button(root, text="Left", padx=30, pady=30, command=Left, bg="gray")
-myButtonLeft.grid(row=9, column=3)
-
-myButtonRight = Button(root, text="Right", padx=30, pady=30, command=Right, bg="gray")
-myButtonRight.grid(row=9, column=16)
-
-myButtonRightDown = Button(root, text="RightDown", padx=30, pady=30, command=RigthDown, bg="gray")
-myButtonRightDown.grid(row=11, column=16)
-
-myButtonBackward = Button(root, text="Backward", padx=30, pady=30, command=Backward, bg="gray")
-myButtonBackward.grid(row=11, column=12)
-
-myButtonLeftDown = Button(root, text="LeftDown", padx=30, pady=30, command=LeftDown, bg="gray")
-myButtonLeftDown.grid(row=11, column=3)
-
-myButtonRotateLeft = Button(root, text="RotateLeft", padx=30, pady=30, command=RotateLeft, bg="gray")
-myButtonRotateLeft.grid(row=12, column=3)
-
-myButtonRotateRight = Button(root, text="RotateRigth", padx=30, pady=30, command=RotateRight, bg="gray")
-myButtonRotateRight.grid(row=12, column=16)
-#-----------------------------------------------------------------------------
-
+myLabel = ttk.Label(root, text="OMNI-Car Steuerung")
+myLabel.grid(row=0, column=1)
+#--------------------------------------------------------- Wartet auf Tastendruck
+root.bind('<Key>', lambda a : key_press(a))
+#---------------------------------------------------------
 root.mainloop(n=0) #Endlos Loop fuer das Fenster
