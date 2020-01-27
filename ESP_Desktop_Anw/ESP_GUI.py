@@ -21,11 +21,36 @@ import urllib
 
 #------------------------------------------------------------ Def vom GUI-Fenster
 root = Tk()
+BarVar = DoubleVar(root)
 style = ttk.Style()
-style.configure('.', font='Arial 14')
 root.title('ESP GUI')
-root.iconbitmap('C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/tgm_logo.ico')
-#root.geometry("600x600")
+root.iconbitmap('C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/tgm_logo.ico')
+#---------------------------------------------------------------- Style von Akkubar
+style.layout('text.Horizontal.TProgressbar', 
+             [('Horizontal.Progressbar.trough',
+               {'children': [('Horizontal.Progressbar.pbar',
+                              {'side': 'left', 'sticky': 'ns'})],
+                'sticky': 'nswe'}), 
+              ('Horizontal.Progressbar.label', {'sticky': ''})])
+style.configure('text.Horizontal.TProgressbar', text='0 %')
+#--------------------------------------------------------------------- Deklaration von Imagevariablen
+PLeft = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PLeft.png")
+PRight = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRechts.png")
+
+PForward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/POben.png")
+PRightUp = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/RightUp.png")
+PLeftUp = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/LeftUp.png")
+
+PBackward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PUnten.png")
+PLeftDown = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/LeftDown.png")
+PRightDown = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/RightDown.png")
+
+PRL = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRL.png")
+PRR = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRR.png")
+#-------------------------------------------------------------- Akkubar-Function
+def incBarLabel():
+    style.configure('text.Horizontal.TProgressbar', text='{:g} %'.format(BarVar.get()))
+    Akkubar.update()
 #-------------------------------------------------------------- Def von Request-Functions
 def Forward():                               
     urllib.request.urlopen('http://192.168.4.1:8080/task?dir=F')
@@ -47,20 +72,6 @@ def RotateLeft():
     urllib.request.urlopen('http://192.168.4.1:8080/task?dir=RL')
 def RotateRight():                               
     urllib.request.urlopen('http://192.168.4.1:8080/task?dir=RR')
-#--------------------------------------------------------------------- Deklaration von Imagevariablen
-PLeft = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PLeft.png")
-PRight = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PRechts.png")
-
-PForward = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/POben.png")
-PRightUp = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/RightUp.png")
-PLeftUp = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/LeftUp.png")
-
-PBackward = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PUnten.png")
-PLeftDown = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/LeftDown.png")
-PRightDown = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/RightDown.png")
-
-PRL = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PRL.png")
-PRR = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PRR.png")
 #----------------------------------------------------------------- Def von Time-Functions
 def timeForward():
     print("Task: Forward")
@@ -164,8 +175,8 @@ def key_press(event):
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeRotateRight)
             t.start()
-#-------------------------------------------------------------------------------- Erstellt ein Label
-myLabel = ttk.Label(root, text="OMNI-Car Steuerung")
+#-------------------------------------------------------------------------------- Erstellt und platziert ein Label
+myLabel = ttk.Label(root, text="OMNI-Car Steuerung", font="14")
 myLabel.grid(row=0, column=1)
 #--------------------------------------------------------------------------------- Erstellt die Buttons
 myButtonForward = ttk.Button(root, text="FW", image = PForward)
@@ -181,6 +192,14 @@ myButtonLeftDown = ttk.Button(root, text="LD", image = PLeftDown)
 
 myButtonRotateLeft = ttk.Button(root, text="RL", image = PRL)
 myButtonRotateRight = ttk.Button(root, text="RR", image = PRR)
+#---------------------------------------------------------------------------------- Erstellt und platziert ein Ladebalken
+Akkubar = ttk.Progressbar(root,style='text.Horizontal.TProgressbar', orient= HORIZONTAL, length = 350, variable=BarVar)
+Akkubar.grid(row=5, column=0, sticky = W, columnspan=3)
+
+# Hier kommt dann die If-Anweisung für Akku 
+Akkubar.step(99.9)
+incBarLabel()
+
 #------------------------------------------------------------------------------------ Platziert die Buttons
 myButtonForward.grid(row=1,column=1)
 myButtonLeftUp.grid(row=1,column=0)
