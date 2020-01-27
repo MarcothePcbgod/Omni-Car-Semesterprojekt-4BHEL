@@ -1,14 +1,18 @@
+# Filename: ESP_GUI.py
+# Erstellt von: MarcothePcbgod
+#
 # Desktop-Anwendung zur Datenübertragung auf einen ESP8266
 #
+# Update am:
 #   26.01.2020 :
 #   Buttons entfernt und auf Keybindevents geandert
 #   27.01.2020 :
 #   Buttons wieder hinzugefugt aber mit Druckanimation mit Hilfe von Timer
-#
-#By Marco Stundner
+#   Buttons mit Arrow-Images hinzugefugt
+#---------------------------------------------------------------------------
 
 
-import tkinter as tk
+from tkinter import *
 from tkinter import ttk
 import threading
 import time as t
@@ -16,7 +20,7 @@ import os
 import urllib
 
 #------------------------------------------------------------ Def vom GUI-Fenster
-root = tk.Tk()
+root = Tk()
 style = ttk.Style()
 style.configure('.', font='Arial 14')
 root.title('ESP GUI')
@@ -43,106 +47,120 @@ def RotateLeft():
     urllib.request.urlopen('http://192.168.4.1:8080/task?dir=RL')
 def RotateRight():                               
     urllib.request.urlopen('http://192.168.4.1:8080/task?dir=RR')
+#--------------------------------------------------------------------- Deklaration von Imagevariablen
+PLeft = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PLeft.png")
+PRight = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PRechts.png")
+
+PForward = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/POben.png")
+PRightUp = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/RightUp.png")
+PLeftUp = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/LeftUp.png")
+
+PBackward = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PUnten.png")
+PLeftDown = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/LeftDown.png")
+PRightDown = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/RightDown.png")
+
+PRL = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PRL.png")
+PRR = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PRR.png")
 #----------------------------------------------------------------- Def von Time-Functions
 def timeForward():
     print("Task: Forward")
-    myButtonForward.configure(state=tk.NORMAL)
+    myButtonForward.configure(state=NORMAL)
 def timeLeftUp():
     print("Task: LeftUp")
-    myButtonLeftUp.configure(state=tk.NORMAL)
+    myButtonLeftUp.configure(state=NORMAL)
 def timeRightUp():
     print("Task: RightUP")
-    myButtonRightUp.configure(state=tk.NORMAL)
+    myButtonRightUp.configure(state=NORMAL)
 def timeLeft():
     print("Task: Left")
-    myButtonLeft.configure(state=tk.NORMAL)
+    myButtonLeft.configure(state=NORMAL)
 def timeRight():
     print("Task: Right")
-    myButtonRight.configure(state=tk.NORMAL)
+    myButtonRight.configure(state=NORMAL)
 def timeLeftDown():
     print("Task: LeftDown")
-    myButtonLeftDown.configure(state=tk.NORMAL)
+    myButtonLeftDown.configure(state=NORMAL)
 def timeRightDown():
     print("Task: RightDown")
-    myButtonRightDown.configure(state=tk.NORMAL)
+    myButtonRightDown.configure(state=NORMAL)
 def timeBackward():
     print("Task: Backward")
-    myButtonBackward.configure(state=tk.NORMAL)
+    myButtonBackward.configure(state=NORMAL)
 def timeRotateRight():
     print("Task: RotateRight")
-    myButtonRotateRight.configure(state=tk.NORMAL)
+    myButtonRotateRight.configure(state=NORMAL)
 def timeRotateLeft():
     print("Task: RotateLeft")
-    myButtonRotateLeft.configure(state=tk.NORMAL)
+    myButtonRotateLeft.configure(state=NORMAL)
 #----------------------------------------------------------------- Def von Keyevent-Functions
 def key_press(event):
     key = event.char
     if(key == 'w'):
         #Forward()
-        myButtonForward.configure(state=tk.DISABLED)
+        myButtonForward.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeForward)
             t.start()
         
     elif(key == 'q'):
         #LeftUp()
-        myButtonLeftUp.configure(state=tk.DISABLED)
+        myButtonLeftUp.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeLeftUp)
             t.start()
 
     elif(key == 'e'):
        # RightUp()
-        myButtonRightUp.configure(state=tk.DISABLED)
+        myButtonRightUp.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeRightUp)
             t.start()
 
     elif(key == 'a'):
       #  Left()
-        myButtonLeft.configure(state=tk.DISABLED)
+        myButtonLeft.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeLeft)
             t.start()
 
     elif(key == 'd'):
       #  Right()
-        myButtonRight.configure(state=tk.DISABLED)
+        myButtonRight.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeRight)
             t.start()
 
     elif(key == 's'):
       #  Backward()
-        myButtonBackward.configure(state=tk.DISABLED)
+        myButtonBackward.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeBackward)
             t.start()
 
     elif(key == 'y'):
       #  LeftDown()
-        myButtonLeftDown.configure(state=tk.DISABLED)
+        myButtonLeftDown.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeLeftDown)
             t.start()
 
     elif(key == 'x'):
        # RigthDown()
-        myButtonRightDown.configure(state=tk.DISABLED)
+        myButtonRightDown.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeRightDown)
             t.start()
 
     elif(key == 'f'):
       #  RotateLeft()
-        myButtonRotateLeft.configure(state=tk.DISABLED)
+        myButtonRotateLeft.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeRotateLeft)
             t.start()
 
     elif(key == 'g'):
       #  RotateRight()
-        myButtonRotateRight.configure(state=tk.DISABLED)
+        myButtonRotateRight.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeRotateRight)
             t.start()
@@ -150,19 +168,19 @@ def key_press(event):
 myLabel = ttk.Label(root, text="OMNI-Car Steuerung")
 myLabel.grid(row=0, column=1)
 #--------------------------------------------------------------------------------- Erstellt die Buttons
-myButtonForward = tk.Button(root, text="FW", padx=40, pady=20, background='white')
-myButtonLeftUp = tk.Button(root, text="LU", padx=40, pady=20, background='white')
-myButtonRightUp = tk.Button(root, text="RU", padx=40, pady=20, background='white')
+myButtonForward = ttk.Button(root, text="FW", image = PForward)
+myButtonLeftUp = ttk.Button(root, text="LU", image = PLeftUp)
+myButtonRightUp = ttk.Button(root, text="RU", image = PRightUp)
 
-myButtonLeft = tk.Button(root, text="LT", padx=40, pady=20, background='white')
-myButtonRight = tk.Button(root, text="RT", padx=40, pady=20, background='white')
+myButtonLeft = ttk.Button(root, text="LT", image = PLeft)
+myButtonRight = ttk.Button(root, text="RT", image = PRight)
 
-myButtonRightDown = tk.Button(root, text="RD", padx=40, pady=20, background='white')
-myButtonBackward = tk.Button(root, text="BW", padx=40, pady=20, background='white')
-myButtonLeftDown = tk.Button(root, text="LD", padx=40, pady=20, background='white')
+myButtonRightDown = ttk.Button(root, text="RD", image = PRightDown)
+myButtonBackward = ttk.Button(root, text="BW", image = PBackward)
+myButtonLeftDown = ttk.Button(root, text="LD", image = PLeftDown)
 
-myButtonRotateLeft = tk.Button(root, text="RL", padx=40, pady=20, background='white')
-myButtonRotateRight = tk.Button(root, text="RR", padx=40, pady=20, background='white')
+myButtonRotateLeft = ttk.Button(root, text="RL", image = PRL)
+myButtonRotateRight = ttk.Button(root, text="RR", image = PRR)
 #------------------------------------------------------------------------------------ Platziert die Buttons
 myButtonForward.grid(row=1,column=1)
 myButtonLeftUp.grid(row=1,column=0)
