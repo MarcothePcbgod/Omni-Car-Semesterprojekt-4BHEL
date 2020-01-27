@@ -1,13 +1,15 @@
 /*
    ESP erstellt eigenen AP und verarbeitet damit Daten und gibt sie weiter
    Befehl in Suchleiste eingeben 192.168.4.1:8080/task?dir=
+   25.01.2020:
+   Befehlcode wird jetzt in HEX ubertragen
 
    By Marco Stundner
 */
 
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
-//---------------------------------------Befehls-Arrays // IN HEX ANGEBEN
+//---------------------------------------Befehls-Arrays
 const byte TASK_FORWARD = 0x00;         //F
 const byte TASK_LEFTUP = 0x01;               //LU
 const byte TASK_RIGHTUP = 0x02;              //RU
