@@ -9,6 +9,10 @@
 #   27.01.2020 :
 #   Buttons wieder hinzugefugt aber mit Druckanimation mit Hilfe von Timer
 #   Buttons mit Arrow-Images hinzugefugt
+#   28.01.2020 :
+#   Buttons Left, Right, LeftUp, RightUp, LeftDown und RightDown wurden entfernt da diese Buttons bei der Realisierung Fehler verursachen wuerden, weil um z.B. nach Links zu fahren
+#   muesste man jedes mal das Omni-Car zuerst drehen um dann zu fahren d.h. wenn man jetz laenger nach Links fahren wollen wuerde, wuerde er sich jedes mal zuerst drehen bedeutet er
+#   faehrt nicht in die richtige Richtung.
 #---------------------------------------------------------------------------
 
 
@@ -34,17 +38,8 @@ style.layout('text.Horizontal.TProgressbar',
               ('Horizontal.Progressbar.label', {'sticky': ''})])
 style.configure('text.Horizontal.TProgressbar', text='0 %')
 #--------------------------------------------------------------------- Deklaration von Imagevariablen
-PLeft = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PLeft.png")
-PRight = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRechts.png")
-
 PForward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/POben.png")
-PRightUp = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/RightUp.png")
-PLeftUp = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/LeftUp.png")
-
 PBackward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PUnten.png")
-PLeftDown = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/LeftDown.png")
-PRightDown = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/RightDown.png")
-
 PRL = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRL.png")
 PRR = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRR.png")
 #-------------------------------------------------------------- Akkubar-Function
@@ -54,18 +49,6 @@ def incBarLabel():
 #-------------------------------------------------------------- Def von Request-Functions
 def Forward():                               
     urllib.request.urlopen('http://192.168.4.1:8080/task?dir=F')
-def LeftUp():                               
-    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=LU')
-def RightUp():                               
-    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=RU')
-def Left():                               
-    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=L')
-def Right():                               
-    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=R')
-def LeftDown():                               
-    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=LD')
-def RigthDown():                               
-    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=RD')
 def Backward():                               
     urllib.request.urlopen('http://192.168.4.1:8080/task?dir=B')
 def RotateLeft():                               
@@ -76,24 +59,6 @@ def RotateRight():
 def timeForward():
     print("Task: Forward")
     myButtonForward.configure(state=NORMAL)
-def timeLeftUp():
-    print("Task: LeftUp")
-    myButtonLeftUp.configure(state=NORMAL)
-def timeRightUp():
-    print("Task: RightUP")
-    myButtonRightUp.configure(state=NORMAL)
-def timeLeft():
-    print("Task: Left")
-    myButtonLeft.configure(state=NORMAL)
-def timeRight():
-    print("Task: Right")
-    myButtonRight.configure(state=NORMAL)
-def timeLeftDown():
-    print("Task: LeftDown")
-    myButtonLeftDown.configure(state=NORMAL)
-def timeRightDown():
-    print("Task: RightDown")
-    myButtonRightDown.configure(state=NORMAL)
 def timeBackward():
     print("Task: Backward")
     myButtonBackward.configure(state=NORMAL)
@@ -112,34 +77,6 @@ def key_press(event):
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeForward)
             t.start()
-        
-    elif(key == 'q'):
-        #LeftUp()
-        myButtonLeftUp.configure(state=DISABLED)
-        if __name__ == '__main__':
-            t =threading.Timer(0.1,timeLeftUp)
-            t.start()
-
-    elif(key == 'e'):
-       # RightUp()
-        myButtonRightUp.configure(state=DISABLED)
-        if __name__ == '__main__':
-            t =threading.Timer(0.1,timeRightUp)
-            t.start()
-
-    elif(key == 'a'):
-      #  Left()
-        myButtonLeft.configure(state=DISABLED)
-        if __name__ == '__main__':
-            t =threading.Timer(0.1,timeLeft)
-            t.start()
-
-    elif(key == 'd'):
-      #  Right()
-        myButtonRight.configure(state=DISABLED)
-        if __name__ == '__main__':
-            t =threading.Timer(0.1,timeRight)
-            t.start()
 
     elif(key == 's'):
       #  Backward()
@@ -148,28 +85,14 @@ def key_press(event):
             t =threading.Timer(0.1,timeBackward)
             t.start()
 
-    elif(key == 'y'):
-      #  LeftDown()
-        myButtonLeftDown.configure(state=DISABLED)
-        if __name__ == '__main__':
-            t =threading.Timer(0.1,timeLeftDown)
-            t.start()
-
-    elif(key == 'x'):
-       # RigthDown()
-        myButtonRightDown.configure(state=DISABLED)
-        if __name__ == '__main__':
-            t =threading.Timer(0.1,timeRightDown)
-            t.start()
-
-    elif(key == 'f'):
+    elif(key == 'a'):
       #  RotateLeft()
         myButtonRotateLeft.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeRotateLeft)
             t.start()
 
-    elif(key == 'g'):
+    elif(key == 'd'):
       #  RotateRight()
         myButtonRotateRight.configure(state=DISABLED)
         if __name__ == '__main__':
@@ -180,40 +103,20 @@ myLabel = ttk.Label(root, text="OMNI-Car Steuerung", font="14")
 myLabel.grid(row=0, column=1)
 #--------------------------------------------------------------------------------- Erstellt die Buttons
 myButtonForward = ttk.Button(root, text="FW", image = PForward)
-myButtonLeftUp = ttk.Button(root, text="LU", image = PLeftUp)
-myButtonRightUp = ttk.Button(root, text="RU", image = PRightUp)
-
-myButtonLeft = ttk.Button(root, text="LT", image = PLeft)
-myButtonRight = ttk.Button(root, text="RT", image = PRight)
-
-myButtonRightDown = ttk.Button(root, text="RD", image = PRightDown)
 myButtonBackward = ttk.Button(root, text="BW", image = PBackward)
-myButtonLeftDown = ttk.Button(root, text="LD", image = PLeftDown)
-
 myButtonRotateLeft = ttk.Button(root, text="RL", image = PRL)
 myButtonRotateRight = ttk.Button(root, text="RR", image = PRR)
 #---------------------------------------------------------------------------------- Erstellt und platziert ein Ladebalken
 Akkubar = ttk.Progressbar(root,style='text.Horizontal.TProgressbar', orient= HORIZONTAL, length = 350, variable=BarVar)
 Akkubar.grid(row=5, column=0, sticky = W, columnspan=3)
-
 # Hier kommt dann die If-Anweisung für Akku 
 Akkubar.step(99.9)
 incBarLabel()
-
 #------------------------------------------------------------------------------------ Platziert die Buttons
 myButtonForward.grid(row=1,column=1)
-myButtonLeftUp.grid(row=1,column=0)
-myButtonRightUp.grid(row=1,column=2)
-
-myButtonLeft.grid(row=2,column=0)
-myButtonRight.grid(row=2,column=2)
-
-myButtonLeftDown.grid(row=3,column=0)
-myButtonBackward.grid(row=3,column=1)
-myButtonRightDown.grid(row=3,column=2)
-
-myButtonRotateLeft.grid(row=4,column=0)
-myButtonRotateRight.grid(row=4,column=2)
+myButtonBackward.grid(row=2,column=1)
+myButtonRotateLeft.grid(row=2,column=0)
+myButtonRotateRight.grid(row=2,column=2)
 #----------------------------------------------------------------- Wartet auf Tastendruck
 root.bind('<Key>', lambda a : key_press(a))
 #----------------------------------------------------------------- Endlos Loop fuer das Fenster
