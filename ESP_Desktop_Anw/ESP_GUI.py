@@ -12,18 +12,16 @@
 #   28.01.2020 :
 #   Buttons Left, Right, LeftUp, RightUp, LeftDown und RightDown wurden entfernt da diese Buttons bei der Realisierung Fehler verursachen wuerden, weil um z.B. nach Links zu fahren
 #   muesste man jedes mal das Omni-Car zuerst drehen um dann zu fahren d.h. wenn man jetz laenger nach Links fahren wollen wuerde, wuerde er sich jedes mal zuerst drehen bedeutet er
-#   faehrt nicht in die richtige Richtung.
+#   faehrt nicht in die richtige Richtung. Möglicher Vorgang fuer die Darstellung des Entladens vom Akku. Zeile: 98
 #---------------------------------------------------------------------------
-
-
 from tkinter import *
 from tkinter import ttk
 import threading
 import time as t
 import os
 import urllib
-
 #------------------------------------------------------------ Def vom GUI-Fenster
+Akkustand = 0
 root = Tk()
 BarVar = DoubleVar(root)
 style = ttk.Style()
@@ -87,6 +85,9 @@ def key_press(event):
 
     elif(key == 'a'):
       #  RotateLeft()
+        Akkustand = 10
+        Akkubar.step(Akkustand)
+        incBarLabel()
         myButtonRotateLeft.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeRotateLeft)
@@ -94,10 +95,39 @@ def key_press(event):
 
     elif(key == 'd'):
       #  RotateRight()
+      #  oldAkku = 99
+      #  newAkku = 0
+      #  Sub = 0
+        # Abfrage von Akkustand ??? Deswegen nicht sicher ob das so funktinoiert
+      #  Sub = newAkku - oldAkku      
+       # Akkubar.step(Sub)
+       # oldAkku = oldAkku + Sub
+       # incBarLabel()
         myButtonRotateRight.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeRotateRight)
             t.start()
+
+#-------------------------------------------------------------------------------- Erstellt Pop-Up Fenster
+NORM_FONT= ("Verdana", 10)    
+def popupakku20(msg):
+    popup = Tk()
+    popup.wm_title("Achtung!")
+    popup.iconbitmap('C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/tgm_logo.ico')
+    label = ttk.Label(popup, text=msg, font=NORM_FONT)
+    label.pack(side="top", fill="x", pady=10)
+    B1 = ttk.Button(popup, text="Okay", command = popup.destroy)
+    B1.pack()
+    popup.mainloop()
+def popupakku10(msg):
+    popup2 = Tk()
+    popup2.wm_title("Achtung!")
+    popup2.iconbitmap('C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/tgm_logo.ico')
+    label = ttk.Label(popup2, text=msg, font=NORM_FONT)
+    label.pack(side="top", fill="x", pady=10)
+    B1 = ttk.Button(popup2, text="Okay", command = popup2.destroy)
+    B1.pack()
+    popup2.mainloop()
 #-------------------------------------------------------------------------------- Erstellt und platziert ein Label
 myLabel = ttk.Label(root, text="OMNI-Car Steuerung", font="14")
 myLabel.grid(row=0, column=1)
@@ -110,8 +140,11 @@ myButtonRotateRight = ttk.Button(root, text="RR", image = PRR)
 Akkubar = ttk.Progressbar(root,style='text.Horizontal.TProgressbar', orient= HORIZONTAL, length = 350, variable=BarVar)
 Akkubar.grid(row=5, column=0, sticky = W, columnspan=3)
 # Hier kommt dann die If-Anweisung für Akku 
-Akkubar.step(99.9)
-incBarLabel()
+
+if Akkustand == 20:
+    popupakku20("Der Akkustand hat 20% erreicht!")
+if Akkustand == 10:
+    popupakku10("Der Akkustand hat 10% ereicht!")
 #------------------------------------------------------------------------------------ Platziert die Buttons
 myButtonForward.grid(row=1,column=1)
 myButtonBackward.grid(row=2,column=1)
