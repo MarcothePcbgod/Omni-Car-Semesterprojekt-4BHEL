@@ -14,7 +14,7 @@
 #   muesste man jedes mal das Omni-Car zuerst drehen um dann zu fahren d.h. wenn man jetz laenger nach Links fahren wollen wuerde, wuerde er sich jedes mal zuerst drehen bedeutet er
 #   faehrt nicht in die richtige Richtung. Möglicher Vorgang fuer die Darstellung des Entladens vom Akku. Zeile: 98
 #   29.01.2020:
-#   Akkustand von Webseite auslesen ?? Aber nocht nicht verarbeitbar da in ASCII ausgegeben wird als darweil Losung mit .txt File ASCII Funktin auslesen
+#   Akkustand von Webseite auslesen ?? Aber nocht nicht verarbeitbar da in ASCII ausgegeben wird
 #---------------------------------------------------------------------------
 
 from tkinter import *
@@ -48,10 +48,32 @@ PForward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/POb
 PBackward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PUnten.png")
 PRL = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRL.png")
 PRR = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRR.png")
-#-------------------------------------------------------------- Akkubar-Function
+#---------------------------------------------------------------------Akku-Functions
 def incBarLabel():
     style.configure('text.Horizontal.TProgressbar', text='{:g} %'.format(BarVar.get()))
     Akkubar.update()
+#def AkkuCalc():
+    #  oldAkku = 99
+    #  newAkku = 0
+    #  Sub = 0
+    # Abfrage von Akkustand ??? Deswegen nicht sicher ob das so funktinoiert
+    #  Sub = newAkku - oldAkku      
+    # Akkubar.step(Sub)
+    # oldAkku = oldAkku + Sub
+    # incBarLabel()
+def AkkuRead():
+    f = urllib.request.urlopen('http://192.168.4.1:8080/task?dir=AK')
+    myfile = f.read() 
+    AkkuS = [0,0]
+    for i in ASCI:
+        if (myfile[0] == ASCI[i]):
+            AkkuS[0] = i
+    i=i+1
+    for i in ASCI:
+        if (myfile[1] == ASCI[i]):
+            AkkuS[1] = i
+    i=i+1
+    print(AkkuS)
 #-------------------------------------------------------------- Def von Request-Functions
 def Forward():                               
     urllib.request.urlopen('http://192.168.4.1:8080/task?dir=F')
@@ -78,18 +100,7 @@ def timeRotateLeft():
 def key_press(event):
     key = event.char
     if(key == 'w'): 
-        f = urllib.request.urlopen('http://192.168.4.1:8080/task?dir=AK')
-        myfile = f.read()
-        AkkuS = [0,0,0]
-        for i in ASCI:
-            if (myfile[0] == ASCI[i]):
-                AkkuS[0] = i
-                return
-        for i in ASCI:
-            if (myfile[1] == ASCI[i]):
-                AkkuS[1] = i
-                return
-        print(AkkuS)
+        AkkuRead()
         #print(myfile[1])
         #Forward()
         myButtonForward.configure(state=DISABLED)
@@ -116,14 +127,6 @@ def key_press(event):
 
     elif(key == 'd'):
       #  RotateRight()
-      #  oldAkku = 99
-      #  newAkku = 0
-      #  Sub = 0
-        # Abfrage von Akkustand ??? Deswegen nicht sicher ob das so funktinoiert
-      #  Sub = newAkku - oldAkku      
-       # Akkubar.step(Sub)
-       # oldAkku = oldAkku + Sub
-       # incBarLabel()
         myButtonRotateRight.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeRotateRight)
