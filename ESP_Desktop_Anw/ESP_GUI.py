@@ -14,9 +14,8 @@
 #   muesste man jedes mal das Omni-Car zuerst drehen um dann zu fahren d.h. wenn man jetz laenger nach Links fahren wollen wuerde, wuerde er sich jedes mal zuerst drehen bedeutet er
 #   faehrt nicht in die richtige Richtung. Möglicher Vorgang fuer die Darstellung des Entladens vom Akku. Zeile: 98
 #   29.01.2020:
-#   Akkustand von Webseite auslesen ?? Aber nocht nicht verarbeitbar da in ASCII ausgegeben wird
-#---------------------------------------------------------------------------
-
+#   Akkustand von Webseite auslesen und in int abgespeichert
+#-------------------------------------------------------------------------------------------------------------------------------------
 from tkinter import *
 from tkinter import ttk
 import urllib
@@ -24,18 +23,17 @@ import requests
 import threading
 import time as t
 import os
-
-#------------------------------------------------------------ Def vom GUI-Fenster
-Akkustand = 0
+#------------------------------------------------------------------------------------------------------ Def vom GUI-Fenster
 root = Tk()
 BarVar = DoubleVar(root)
 style = ttk.Style()
 root.title('ESP GUI')
 root.iconbitmap('C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/tgm_logo.ico')
 
+Akkustand = 0
 ASCI = [48,49,50,51,52,53,54,55,56,57]
 
-#---------------------------------------------------------------- Style von Akkubar
+#----------------------------------------------------------------------------------------------------- Style von Akkubar
 style.layout('text.Horizontal.TProgressbar', 
              [('Horizontal.Progressbar.trough',
                {'children': [('Horizontal.Progressbar.pbar',
@@ -43,37 +41,31 @@ style.layout('text.Horizontal.TProgressbar',
                 'sticky': 'nswe'}), 
               ('Horizontal.Progressbar.label', {'sticky': ''})])
 style.configure('text.Horizontal.TProgressbar', text='0 %')
-#--------------------------------------------------------------------- Deklaration von Imagevariablen
+#---------------------------------------------------------------------------------------------------Deklaration von Imagevariablen
 PForward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/POben.png")
 PBackward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PUnten.png")
 PRL = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRL.png")
 PRR = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRR.png")
-#---------------------------------------------------------------------Akku-Functions
+#--------------------------------------------------------------------------------------------------Akku-Functions
 def incBarLabel():
     style.configure('text.Horizontal.TProgressbar', text='{:g} %'.format(BarVar.get()))
     Akkubar.update()
-#def AkkuCalc():
-    #  oldAkku = 99
-    #  newAkku = 0
-    #  Sub = 0
-    # Abfrage von Akkustand ??? Deswegen nicht sicher ob das so funktinoiert
-    #  Sub = newAkku - oldAkku      
-    # Akkubar.step(Sub)
-    # oldAkku = oldAkku + Sub
-    # incBarLabel()
+def AkkuCalc():
+    oldAkku = 99
+    Sub = Akkustand - oldAkku      
+    Akkubar.step(Sub)
+    oldAkku = oldAkku + Sub
+    incBarLabel()
 def AkkuRead():
-    f = urllib.request.urlopen('http://192.168.4.1:8080/task?dir=AK')
-    myfile = f.read() 
-    AkkuS = [0,0]
-    for i in ASCI:
-        if (myfile[0] == ASCI[i]):
-            AkkuS[0] = i
-    i=i+1
-    for i in ASCI:
-        if (myfile[1] == ASCI[i]):
-            AkkuS[1] = i
-    i=i+1
-    print(AkkuS)
+    Akkudata = urllib.request.urlopen('http://192.168.4.1:8080/task?dir=AK')
+    myfile = Akkudata.read() 
+    k=0
+    for i in reversed(myfile):
+        for y in range(0,9):
+            if(i == ASCI[y]):
+                wert = wert + y *(10**k)
+                k = 1+k
+    print(Akkustand)
 #-------------------------------------------------------------- Def von Request-Functions
 def Forward():                               
     urllib.request.urlopen('http://192.168.4.1:8080/task?dir=F')
@@ -101,7 +93,6 @@ def key_press(event):
     key = event.char
     if(key == 'w'): 
         AkkuRead()
-        #print(myfile[1])
         #Forward()
         myButtonForward.configure(state=DISABLED)
         if __name__ == '__main__':
@@ -131,7 +122,6 @@ def key_press(event):
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeRotateRight)
             t.start()
-
 #-------------------------------------------------------------------------------- Erstellt Pop-Up Fenster
 NORM_FONT= ("Verdana", 10)    
 def popupakku20(msg):
@@ -155,11 +145,16 @@ def popupakku10(msg):
 #-------------------------------------------------------------------------------- Erstellt und platziert ein Label
 myLabel = ttk.Label(root, text="OMNI-Car Steuerung", font="14")
 myLabel.grid(row=0, column=1)
-#--------------------------------------------------------------------------------- Erstellt die Buttons
+#--------------------------------------------------------------------------------- Erstellt und platziert die Buttons
 myButtonForward = ttk.Button(root, text="FW", image = PForward)
 myButtonBackward = ttk.Button(root, text="BW", image = PBackward)
 myButtonRotateLeft = ttk.Button(root, text="RL", image = PRL)
 myButtonRotateRight = ttk.Button(root, text="RR", image = PRR)
+
+myButtonForward.grid(row=1,column=1)
+myButtonBackward.grid(row=2,column=1)
+myButtonRotateLeft.grid(row=2,column=0)
+myButtonRotateRight.grid(row=2,column=2)
 #---------------------------------------------------------------------------------- Erstellt und platziert ein Ladebalken
 Akkubar = ttk.Progressbar(root,style='text.Horizontal.TProgressbar', orient= HORIZONTAL, length = 370, variable=BarVar)
 Akkubar.grid(row=5, column=0, sticky = W, columnspan=3)
@@ -169,11 +164,6 @@ if Akkustand == 20:
     popupakku20("Der Akkustand hat 20% erreicht!")
 if Akkustand == 10:
     popupakku10("Der Akkustand hat 10% ereicht!")
-#------------------------------------------------------------------------------------ Platziert die Buttons
-myButtonForward.grid(row=1,column=1)
-myButtonBackward.grid(row=2,column=1)
-myButtonRotateLeft.grid(row=2,column=0)
-myButtonRotateRight.grid(row=2,column=2)
 #----------------------------------------------------------------- Wartet auf Tastendruck
 root.bind('<Key>', lambda a : key_press(a))
 #----------------------------------------------------------------- Endlos Loop fuer das Fenster
