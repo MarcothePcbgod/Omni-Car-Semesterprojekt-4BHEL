@@ -31,7 +31,10 @@ root = Tk()
 BarVar = DoubleVar(root)
 style = ttk.Style()
 root.title('ESP GUI')
-root.iconbitmap('C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/tgm_logo.ico')
+root.iconbitmap('C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/tgm_logo.ico')
+
+ASCI = [48,49,50,51,52,53,54,55,56,57]
+
 #---------------------------------------------------------------- Style von Akkubar
 style.layout('text.Horizontal.TProgressbar', 
              [('Horizontal.Progressbar.trough',
@@ -41,10 +44,10 @@ style.layout('text.Horizontal.TProgressbar',
               ('Horizontal.Progressbar.label', {'sticky': ''})])
 style.configure('text.Horizontal.TProgressbar', text='0 %')
 #--------------------------------------------------------------------- Deklaration von Imagevariablen
-PForward = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/POben.png")
-PBackward = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PUnten.png")
-PRL = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PRL.png")
-PRR = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PRR.png")
+PForward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/POben.png")
+PBackward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PUnten.png")
+PRL = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRL.png")
+PRR = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRR.png")
 #-------------------------------------------------------------- Akkubar-Function
 def incBarLabel():
     style.configure('text.Horizontal.TProgressbar', text='{:g} %'.format(BarVar.get()))
@@ -77,13 +80,17 @@ def key_press(event):
     if(key == 'w'): 
         f = urllib.request.urlopen('http://192.168.4.1:8080/task?dir=AK')
         myfile = f.read()
-        myfile= bytes_to_int(myfile)
-        print(myfile)
-        if (myfile == 50):
-            print("Stimmt echt")
-        if (myfile[0] == 53) and (myfile[1] == 48) :
-            print("Stimmt")
-        #print(myfile[0])
+        AkkuS = [0,0,0]
+        for i in ASCI:
+            if (myfile[0] == ASCI[i]):
+                AkkuS[0] = i
+                return
+        for i in ASCI:
+            if (myfile[1] == ASCI[i]):
+                AkkuS[1] = i
+                return
+        print(AkkuS)
+        #print(myfile[1])
         #Forward()
         myButtonForward.configure(state=DISABLED)
         if __name__ == '__main__':

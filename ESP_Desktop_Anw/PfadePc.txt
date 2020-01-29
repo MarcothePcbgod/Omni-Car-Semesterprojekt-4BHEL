@@ -1,14 +1,6 @@
-PLeft = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PLeft.png")
-PRight = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRechts.png")
 
 PForward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/POben.png")
-PRightUp = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/RightUp.png")
-PLeftUp = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/LeftUp.png")
-
 PBackward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PUnten.png")
-PLeftDown = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/LeftDown.png")
-PRightDown = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/RightDown.png")
-
 PRL = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRL.png")
 PRR = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRR.png")
 
