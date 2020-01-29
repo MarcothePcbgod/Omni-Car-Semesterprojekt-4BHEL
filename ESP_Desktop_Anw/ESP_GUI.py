@@ -13,20 +13,25 @@
 #   Buttons Left, Right, LeftUp, RightUp, LeftDown und RightDown wurden entfernt da diese Buttons bei der Realisierung Fehler verursachen wuerden, weil um z.B. nach Links zu fahren
 #   muesste man jedes mal das Omni-Car zuerst drehen um dann zu fahren d.h. wenn man jetz laenger nach Links fahren wollen wuerde, wuerde er sich jedes mal zuerst drehen bedeutet er
 #   faehrt nicht in die richtige Richtung. Möglicher Vorgang fuer die Darstellung des Entladens vom Akku. Zeile: 98
+#   29.01.2020:
+#   Akkustand von Webseite auslesen ?? Aber nocht nicht verarbeitbar da in ASCII ausgegeben wird als darweil Losung mit .txt File ASCII Funktin auslesen
 #---------------------------------------------------------------------------
+
 from tkinter import *
 from tkinter import ttk
+import urllib
+import requests
 import threading
 import time as t
 import os
-import urllib
+
 #------------------------------------------------------------ Def vom GUI-Fenster
 Akkustand = 0
 root = Tk()
 BarVar = DoubleVar(root)
 style = ttk.Style()
 root.title('ESP GUI')
-root.iconbitmap('C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/tgm_logo.ico')
+root.iconbitmap('C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/tgm_logo.ico')
 #---------------------------------------------------------------- Style von Akkubar
 style.layout('text.Horizontal.TProgressbar', 
              [('Horizontal.Progressbar.trough',
@@ -36,10 +41,10 @@ style.layout('text.Horizontal.TProgressbar',
               ('Horizontal.Progressbar.label', {'sticky': ''})])
 style.configure('text.Horizontal.TProgressbar', text='0 %')
 #--------------------------------------------------------------------- Deklaration von Imagevariablen
-PForward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/POben.png")
-PBackward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PUnten.png")
-PRL = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRL.png")
-PRR = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRR.png")
+PForward = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/POben.png")
+PBackward = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PUnten.png")
+PRL = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PRL.png")
+PRR = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PRR.png")
 #-------------------------------------------------------------- Akkubar-Function
 def incBarLabel():
     style.configure('text.Horizontal.TProgressbar', text='{:g} %'.format(BarVar.get()))
@@ -69,7 +74,16 @@ def timeRotateLeft():
 #----------------------------------------------------------------- Def von Keyevent-Functions
 def key_press(event):
     key = event.char
-    if(key == 'w'):
+    if(key == 'w'): 
+        f = urllib.request.urlopen('http://192.168.4.1:8080/task?dir=AK')
+        myfile = f.read()
+        myfile= bytes_to_int(myfile)
+        print(myfile)
+        if (myfile == 50):
+            print("Stimmt echt")
+        if (myfile[0] == 53) and (myfile[1] == 48) :
+            print("Stimmt")
+        #print(myfile[0])
         #Forward()
         myButtonForward.configure(state=DISABLED)
         if __name__ == '__main__':
@@ -137,7 +151,7 @@ myButtonBackward = ttk.Button(root, text="BW", image = PBackward)
 myButtonRotateLeft = ttk.Button(root, text="RL", image = PRL)
 myButtonRotateRight = ttk.Button(root, text="RR", image = PRR)
 #---------------------------------------------------------------------------------- Erstellt und platziert ein Ladebalken
-Akkubar = ttk.Progressbar(root,style='text.Horizontal.TProgressbar', orient= HORIZONTAL, length = 350, variable=BarVar)
+Akkubar = ttk.Progressbar(root,style='text.Horizontal.TProgressbar', orient= HORIZONTAL, length = 370, variable=BarVar)
 Akkubar.grid(row=5, column=0, sticky = W, columnspan=3)
 # Hier kommt dann die If-Anweisung für Akku 
 
