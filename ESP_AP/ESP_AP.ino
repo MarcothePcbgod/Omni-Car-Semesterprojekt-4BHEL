@@ -62,6 +62,9 @@ void handleTaskRequest() {
     Serial.println(TASK_ROTATELEFT,HEX);
     server.send(200, "text / plain", "Task: ROTATELEFT");
   }
+  else if (direction.equals("AK")) {
+    server.send(200, "text / plain", "50");
+  }
   else {
     server.send(404, "text / plain", "Task: undefined");
   }
