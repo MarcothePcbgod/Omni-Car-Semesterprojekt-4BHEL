@@ -13,8 +13,12 @@
 #   Buttons Left, Right, LeftUp, RightUp, LeftDown und RightDown wurden entfernt da diese Buttons bei der Realisierung Fehler verursachen wuerden, weil um z.B. nach Links zu fahren
 #   muesste man jedes mal das Omni-Car zuerst drehen um dann zu fahren d.h. wenn man jetz laenger nach Links fahren wollen wuerde, wuerde er sich jedes mal zuerst drehen bedeutet er
 #   faehrt nicht in die richtige Richtung. Möglicher Vorgang fuer die Darstellung des Entladens vom Akku. Zeile: 98
-#   29.01.2020:
+#   29.01.2020 :
 #   Akkustand von Webseite auslesen und in int abgespeichert
+#   30.01.2020 :
+#   Akkubalken wird mit der Func geupdated aber NICHT GETESTET
+#   31.01.2020 :
+#   Exe-Datei fertig und beginn von Erstellung eines PopUp-Fenster falls das Script keine Verbindung aufbauen kann.
 #-------------------------------------------------------------------------------------------------------------------------------------
 from tkinter import *
 from tkinter import ttk
@@ -28,8 +32,9 @@ root = Tk()
 BarVar = DoubleVar(root)
 style = ttk.Style()
 root.title('ESP GUI')
-root.iconbitmap('C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/tgm_logo.ico')
-
+root.iconbitmap('C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/tgm_logo.ico')
+NORM_FONT = ("Verdana", 10)  
+oldAkku = 99
 Akkustand = 0
 ASCI = [48,49,50,51,52,53,54,55,56,57]
 
@@ -42,30 +47,35 @@ style.layout('text.Horizontal.TProgressbar',
               ('Horizontal.Progressbar.label', {'sticky': ''})])
 style.configure('text.Horizontal.TProgressbar', text='0 %')
 #---------------------------------------------------------------------------------------------------Deklaration von Imagevariablen
-PForward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/POben.png")
-PBackward = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PUnten.png")
-PRL = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRL.png")
-PRR = PhotoImage(file = r"C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/PRR.png")
+PForward = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/POben.png")
+PBackward = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PUnten.png")
+PRL = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PRL.png")
+PRR = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PRR.png")
 #--------------------------------------------------------------------------------------------------Akku-Functions
 def incBarLabel():
     style.configure('text.Horizontal.TProgressbar', text='{:g} %'.format(BarVar.get()))
     Akkubar.update()
-def AkkuCalc():
-    oldAkku = 99
-    Sub = Akkustand - oldAkku      
+def AkkuCalc(a, b):
+    a = AkkuRead()
+    Sub = b - a  
     Akkubar.step(Sub)
-    oldAkku = oldAkku + Sub
+    b = a
     incBarLabel()
+    Akkubar.update()
+    return b
 def AkkuRead():
     Akkudata = urllib.request.urlopen('http://192.168.4.1:8080/task?dir=AK')
     myfile = Akkudata.read() 
-    k=0
+    print(myfile)
+    k = 0
+    wert = 0
     for i in reversed(myfile):
         for y in range(0,9):
             if(i == ASCI[y]):
                 wert = wert + y *(10**k)
                 k = 1+k
-    print(Akkustand)
+    print(wert)
+    return wert
 #-------------------------------------------------------------- Def von Request-Functions
 def Forward():                               
     urllib.request.urlopen('http://192.168.4.1:8080/task?dir=F')
@@ -89,10 +99,10 @@ def timeRotateLeft():
     print("Task: RotateLeft")
     myButtonRotateLeft.configure(state=NORMAL)
 #----------------------------------------------------------------- Def von Keyevent-Functions
+abt=0
 def key_press(event):
     key = event.char
     if(key == 'w'): 
-        AkkuRead()
         #Forward()
         myButtonForward.configure(state=DISABLED)
         if __name__ == '__main__':
@@ -108,9 +118,6 @@ def key_press(event):
 
     elif(key == 'a'):
       #  RotateLeft()
-        Akkustand = 10
-        Akkubar.step(Akkustand)
-        incBarLabel()
         myButtonRotateLeft.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeRotateLeft)
@@ -123,11 +130,22 @@ def key_press(event):
             t =threading.Timer(0.1,timeRotateRight)
             t.start()
 #-------------------------------------------------------------------------------- Erstellt Pop-Up Fenster
-NORM_FONT= ("Verdana", 10)    
+def popupNoCon(msg):
+    def close_window():
+        root.destroy()
+        popupNoCon.destroy()
+    popupNoCon = Tk()
+    popupNoCon.wm_title("Keine Verbindung!")
+    popupNoCon.iconbitmap('C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/tgm_logo.ico')
+    label = ttk.Label(popupNoCon, text=msg, font=NORM_FONT)
+    label.pack(side="top", fill="x", pady=10)
+    B1 = ttk.Button(popupNoCon, text="Okay", command = close_window)
+    B1.pack()
+    popupNoCon.mainloop()
 def popupakku20(msg):
     popup = Tk()
     popup.wm_title("Achtung!")
-    popup.iconbitmap('C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/tgm_logo.ico')
+    popup.iconbitmap('C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/tgm_logo.ico')
     label = ttk.Label(popup, text=msg, font=NORM_FONT)
     label.pack(side="top", fill="x", pady=10)
     B1 = ttk.Button(popup, text="Okay", command = popup.destroy)
@@ -136,12 +154,18 @@ def popupakku20(msg):
 def popupakku10(msg):
     popup2 = Tk()
     popup2.wm_title("Achtung!")
-    popup2.iconbitmap('C:/Users/marco/Desktop/Schule/ESP_Desktop_Anw/tgm_logo.ico')
+    popup2.iconbitmap('C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/tgm_logo.ico')
     label = ttk.Label(popup2, text=msg, font=NORM_FONT)
     label.pack(side="top", fill="x", pady=10)
     B1 = ttk.Button(popup2, text="Okay", command = popup2.destroy)
     B1.pack()
     popup2.mainloop()
+#-------------------------------------------------------------------------------- Try-Func für NoCon
+try:
+    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=AK')
+except:
+    popupNoCon("     Keine Verbindung mit OMNI-WIFIff")
+    close_window()
 #-------------------------------------------------------------------------------- Erstellt und platziert ein Label
 myLabel = ttk.Label(root, text="OMNI-Car Steuerung", font="14")
 myLabel.grid(row=0, column=1)
@@ -158,13 +182,12 @@ myButtonRotateRight.grid(row=2,column=2)
 #---------------------------------------------------------------------------------- Erstellt und platziert ein Ladebalken
 Akkubar = ttk.Progressbar(root,style='text.Horizontal.TProgressbar', orient= HORIZONTAL, length = 370, variable=BarVar)
 Akkubar.grid(row=5, column=0, sticky = W, columnspan=3)
-# Hier kommt dann die If-Anweisung für Akku 
-
-if Akkustand == 20:
-    popupakku20("Der Akkustand hat 20% erreicht!")
-if Akkustand == 10:
-    popupakku10("Der Akkustand hat 10% ereicht!")
+PopAkku = AkkuCalc(Akkustand, oldAkku)
+if (PopAkku <= 20) and (PopAkku > 10):
+    popupakku20("Ihr Akkustand ist niedrig")
+if PopAkku <= 10:
+    popupakku10("Ihr Akkustand ist sehr niedrig")
 #----------------------------------------------------------------- Wartet auf Tastendruck
 root.bind('<Key>', lambda a : key_press(a))
 #----------------------------------------------------------------- Endlos Loop fuer das Fenster
-root.mainloop(n=0) 
+root.mainloop() 
