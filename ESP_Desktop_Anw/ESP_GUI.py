@@ -32,7 +32,7 @@ root = Tk()
 BarVar = DoubleVar(root)
 style = ttk.Style()
 root.title('ESP GUI')
-root.iconbitmap('C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/tgm_logo.ico')
+root.iconbitmap('C:/Users/marco/Documents/GitHub/Omni-Car-Semesterprojekt-4BHEL/ESP_Desktop_Anw/tgm_logo.ico')
 NORM_FONT = ("Verdana", 10)  
 oldAkku = 99
 Akkustand = 0
@@ -47,10 +47,10 @@ style.layout('text.Horizontal.TProgressbar',
               ('Horizontal.Progressbar.label', {'sticky': ''})])
 style.configure('text.Horizontal.TProgressbar', text='0 %')
 #---------------------------------------------------------------------------------------------------Deklaration von Imagevariablen
-PForward = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/POben.png")
-PBackward = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PUnten.png")
-PRL = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PRL.png")
-PRR = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steuerung/ESP_Desktop_Anw/PRR.png")
+PForward = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/Omni-Car-Semesterprojekt-4BHEL/ESP_Desktop_Anw/POben.png")
+PBackward = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/Omni-Car-Semesterprojekt-4BHEL/ESP_Desktop_Anw/PUnten.png")
+PRL = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/Omni-Car-Semesterprojekt-4BHEL/ESP_Desktop_Anw/PRL.png")
+PRR = PhotoImage(file = r"C:/Users/marco/Documents/GitHub/Omni-Car-Semesterprojekt-4BHEL/ESP_Desktop_Anw/PRR.png")
 #--------------------------------------------------------------------------------------------------Akku-Functions
 def incBarLabel():
     style.configure('text.Horizontal.TProgressbar', text='{:g} %'.format(BarVar.get()))
