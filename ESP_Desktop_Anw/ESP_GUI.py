@@ -161,11 +161,10 @@ def popupakku10(msg):
     B1.pack()
     popup2.mainloop()
 #-------------------------------------------------------------------------------- Try-Func für NoCon
-try:
-    urllib.request.urlopen('http://192.168.4.1:8080/task?dir=AK')
-except:
-    popupNoCon("     Keine Verbindung mit OMNI-WIFIff")
-    close_window()
+# try:
+#     urllib.request.urlopen('http://192.168.4.1:8080/task?dir=AK')
+# except:
+#     popupNoCon("     Keine Verbindung mit OMNI-WIFIff")
 #-------------------------------------------------------------------------------- Erstellt und platziert ein Label
 myLabel = ttk.Label(root, text="OMNI-Car Steuerung", font="14")
 myLabel.grid(row=0, column=1)
@@ -182,11 +181,11 @@ myButtonRotateRight.grid(row=2,column=2)
 #---------------------------------------------------------------------------------- Erstellt und platziert ein Ladebalken
 Akkubar = ttk.Progressbar(root,style='text.Horizontal.TProgressbar', orient= HORIZONTAL, length = 370, variable=BarVar)
 Akkubar.grid(row=5, column=0, sticky = W, columnspan=3)
-PopAkku = AkkuCalc(Akkustand, oldAkku)
-if (PopAkku <= 20) and (PopAkku > 10):
-    popupakku20("Ihr Akkustand ist niedrig")
-if PopAkku <= 10:
-    popupakku10("Ihr Akkustand ist sehr niedrig")
+# PopAkku = AkkuCalc(Akkustand, oldAkku)
+# if (PopAkku <= 20) and (PopAkku > 10):
+#     popupakku20("Ihr Akkustand ist niedrig")
+# if PopAkku <= 10:
+#     popupakku10("Ihr Akkustand ist sehr niedrig")
 #----------------------------------------------------------------- Wartet auf Tastendruck
 root.bind('<Key>', lambda a : key_press(a))
 #----------------------------------------------------------------- Endlos Loop fuer das Fenster
