@@ -36,7 +36,7 @@ root.iconbitmap('C:/Users/marco/Documents/GitHub/SemesterProjekt_4BHEL/ESP_Steue
 NORM_FONT = ("Verdana", 10)  
 oldAkku = 99
 Akkustand = 0
-ASCI = [48,49,50,51,52,53,54,55,56,58]
+ASCI = [48,49,50,51,52,53,54,55,56,57]
 
 #----------------------------------------------------------------------------------------------------- Style von Akkubar
 style.layout('text.Horizontal.TProgressbar', 
