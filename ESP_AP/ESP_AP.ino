@@ -1,5 +1,5 @@
 /*
-   ESP erstellt eigenen AP und verarbeitet damit Daten und gibt sie weiter
+   ESP erstellt eigenen AP und verarbeitet damit Daten und gibt sie weiter uber die UART
    Befehl in Suchleiste eingeben 192.168.4.1:8080/task?dir=
    25.01.2020:
    Befehlcode wird jetzt in HEX ubertragen
@@ -9,21 +9,21 @@
    SPI-Transfer hinzugefuegt aber noch nicht getestet
    16.02.2020:
    URL-Request für Verbindungstest
-
+   22.02.2020:
+   Mogliche Kommunikation mit dem Nucleo uber die UART aufgebaut aber noch nicht getestet
    By Marco Stundner
 */
 
-#include <SPI.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
 int Akkustand = 0;
 
 //---------------------------------------Befehls-Arrays
-const byte TASK_FORWARD = 0x00;              //F
-const byte TASK_BACKWARD = 0x01;             //B
-const byte TASK_ROTATERIGHT = 0x02;          //RR
-const byte TASK_ROTATELEFT = 0x03;           //RL
+const int TASK_FORWARD = 0;              //F
+const int TASK_BACKWARD = 1;             //B
+const int TASK_ROTATERIGHT = 2;          //RR
+const int TASK_ROTATELEFT = 3;           //RL
 //---------------------------------------WLAN Daten
 const char *ssid = "OMNI_WIFI";
 const char *password = "OMNI_WIFI";
@@ -34,16 +34,10 @@ const int port = 8080;
 ESP8266WebServer server(port);
 //--------------------------------------
 void setup() {
-  //-------------------------------------- SPI-Conf
-  digitalWrite(SS, HIGH);
-  SPI.begin();
-  SPI.setClockDivider(SPI_CLOCK_DIV8);      // Geschwindigkeit verlangsamen
-  //--------------------------------------
-  Serial.begin (115200);
+  Serial.begin (38400);
   WiFi.mode(WIFI_AP);
   WiFi.softAPConfig(ip, ip, netmask);
   WiFi.softAP(ssid, password);
-  Serial.println("WiFi started!");
 
   server.on("/task", HTTP_GET, handleTaskRequest);
   server.onNotFound(handleNotFound);
@@ -60,19 +54,15 @@ void handleTaskRequest() {
   String direction = server.arg("dir");
 
   if (direction.equals("F")) {
-    Serial.println(TASK_FORWARD, HEX);
     server.send(200, "text / plain", "Task: Forward");
   }
   else if (direction.equals("B")) {
-    Serial.println(TASK_BACKWARD, HEX);
     server.send(200, "text / plain", "Task: BACKWARD");
   }
   else if (direction.equals("RR")) {
-    Serial.println(TASK_ROTATERIGHT, HEX);
     server.send(200, "text / plain", "Task: ROTATERIGHT");
   }
   else if (direction.equals("RL")) {
-    Serial.println(TASK_ROTATELEFT, HEX);
     server.send(200, "text / plain", "Task: ROTATELEFT");
   }
   else if (direction.equals("AK")) {
@@ -92,17 +82,8 @@ void handleNotFound() {
 //-------------------------------------------------------
 void loop() {
   server.handleClient();
-  //------------------------------------------------------ SPI-transfer
-  char c;
-  digitalWrite(SS, LOW);
-
-  for (const char *p = "Hello World\n"; c = *p; p++)
-  {
-    SPI.transfer(c);
+  if(Serial.available() > 0){
+    Serial.write(1);
   }
-
-  digitalWrite(SS, HIGH);
-
   delay(1000);
-  //-------------------------------------------------------
 }

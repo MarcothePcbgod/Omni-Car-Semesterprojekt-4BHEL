@@ -19,6 +19,8 @@
 #   Akkubalken wird mit der Func geupdated aber NICHT GETESTET
 #   31.01.2020 :
 #   Exe-Datei fertig und beginn von Erstellung eines PopUp-Fenster falls das Script keine Verbindung aufbauen kann.
+#   17.02.2020 :
+#   Neue Pfade eingefügt 
 #-------------------------------------------------------------------------------------------------------------------------------------
 from tkinter import *
 from tkinter import ttk
