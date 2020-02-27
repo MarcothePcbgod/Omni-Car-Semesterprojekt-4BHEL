@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name Moto_TreiberIC)(type Legacy)(uri ${KIPRJMOD}/Moto_TreiberIC.lib)(options "")(descr ""))
+)
