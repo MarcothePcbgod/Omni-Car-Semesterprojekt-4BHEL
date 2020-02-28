@@ -11,6 +11,8 @@
    URL-Request für Verbindungstest
    22.02.2020:
    Mogliche Kommunikation mit dem Nucleo uber die UART aufgebaut aber noch nicht getestet
+   28.02.2020:
+   Kommunikation mit Nucleo in dem URL-Aufruf hinzugefugt und Interrupt-UART sollte funktionieren
    By Marco Stundner
 */
 
@@ -20,10 +22,10 @@
 int Akkustand = 0;
 
 //---------------------------------------Befehls-Arrays
-const int TASK_FORWARD = 0;              //F
-const int TASK_BACKWARD = 1;             //B
-const int TASK_ROTATERIGHT = 2;          //RR
-const int TASK_ROTATELEFT = 3;           //RL
+const int TASK_FORWARD = 1;              //F
+const int TASK_BACKWARD = 2;             //B
+const int TASK_ROTATERIGHT = 3;          //RR
+const int TASK_ROTATELEFT = 4;           //RL
 //---------------------------------------WLAN Daten
 const char *ssid = "OMNI_WIFI";
 const char *password = "OMNI_WIFI";
@@ -54,25 +56,23 @@ void handleTaskRequest() {
   String direction = server.arg("dir");
 
   if (direction.equals("F")) {
+    Serial.write(TASK_FORWARD);
     server.send(200, "text / plain", "Task: Forward");
   }
   else if (direction.equals("B")) {
+     Serial.write(TASK_BACKWARD);
     server.send(200, "text / plain", "Task: BACKWARD");
   }
   else if (direction.equals("RR")) {
+     Serial.write(TASK_ROTATERIGHT);
     server.send(200, "text / plain", "Task: ROTATERIGHT");
   }
   else if (direction.equals("RL")) {
+     Serial.write(TASK_ROTATELEFT);
     server.send(200, "text / plain", "Task: ROTATELEFT");
   }
   else if (direction.equals("AK")) {
     server.send(200, "text / plain", String("") + Akkustand);
-  }
-  else if (direction.equals("RQ")) {
-    server.send(200, "text / plain", "Request Successful");
-  }
-  else {
-    server.send(404, "text / plain", "Task: undefined");
   }
 }
 //-------------------------------------------------------- Sonderfall
@@ -82,8 +82,4 @@ void handleNotFound() {
 //-------------------------------------------------------
 void loop() {
   server.handleClient();
-  if(Serial.available() > 0){
-    Serial.write(1);
-  }
-  delay(1000);
 }
