@@ -43,6 +43,13 @@
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
+__IO ITStatus UartReady = SET;
+const uint8_t Task_Forward = 1;
+const uint8_t Task_Backward	= 2;
+const uint8_t Task_RotateLeft = 3;
+const uint8_t Task_RotateRight = 4;
+
+
 
 /* USER CODE BEGIN PV */
 
@@ -53,6 +60,9 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
+uint8_t processUserInput(uint8_t UART_gVAL);
+uint8_t readUserInput(void);
+
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -95,6 +105,36 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  uint8_t readUserInput(void){
+	  if(UartReady == SET){
+		  UartReady = RESET;
+		  HAL_UART_Receive_IT(&huart1, &UART_VAL,sizeof(UART_VAL));
+	  }
+	  return UART_VAL;
+  }
+
+  uint8_t processUserInput(uint8_t UART_gVAL){
+
+	  switch(UART_gVAL){
+	  case Task_Forward:
+		  //Befehl fur Motor gerade fahren
+		  break;
+	  case Task_Backward:
+		  //Befehl fur Motor nach hinten fahren
+		  break;
+	  case Task_RotateLeft:
+		  //Befehl fur Motor nach links drehen
+		  break;
+	  case Task_RotateRight:
+		  //Befehl fur Motor nach rechts drehen
+		  break;
+	  default:
+		  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_13); //Blinkt falls eine falsche Value in UART_gVal ist
+		  break;
+	  }
+  return 1;
+  }
+
   /* USER CODE END 2 */
  
  
@@ -103,15 +143,18 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_UART_Receive(&huart1,&UART_VAL,sizeof(UART_VAL),100); // DMA oder Interrupt Mode anschauen weil es den Code dann nicht blockt
-	  HAL_Delay(1000);
-	  HAL_UART_Transmit(&huart2,&UART_VAL,sizeof(UART_VAL),100);
+	 uint8_t UART_gVAL = readUserInput();
+	  if(UART_gVAL > 0){
+		  processUserInput(UART_gVAL);
+	  }
+
+  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
-}
+
 
 /**
   * @brief System Clock Configuration
