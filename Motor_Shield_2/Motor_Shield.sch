@@ -1,5 +1,4 @@
 EESchema Schematic File Version 4
-LIBS:Motor_Shield-cache
 EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
@@ -448,11 +447,7 @@ Wire Wire Line
 Wire Wire Line
 	8050 2700 8150 2700
 Connection ~ 6800 3000
-Wire Wire Line
-	8150 3200 8150 3100
 Connection ~ 6800 3200
-Wire Wire Line
-	7900 3750 7900 3250
 Wire Wire Line
 	7900 2500 8150 2500
 Connection ~ 6800 3750
@@ -1237,40 +1232,7 @@ Wire Wire Line
 	6800 3200 8150 3200
 Wire Wire Line
 	6800 3000 8050 3000
-$Comp
-L Connector:Conn_01x04_Female J23
-U 1 1 5E62AB36
-P 8525 3100
-F 0 "J23" H 8553 3076 50  0000 L CNN
-F 1 "Conn_01x04_Female" H 8553 2985 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 8525 3100 50  0001 C CNN
-F 3 "~" H 8525 3100 50  0001 C CNN
-	1    8525 3100
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	8050 3000 8325 3000
-Connection ~ 8050 3000
-Wire Wire Line
-	8150 3100 8325 3100
-Connection ~ 8150 3100
-Wire Wire Line
-	8150 3100 8150 2800
-Wire Wire Line
-	8325 3300 8000 3300
-Wire Wire Line
-	8000 2600 8000 3300
-Connection ~ 8000 3300
-Wire Wire Line
-	8000 3300 8000 4050
-Wire Wire Line
-	7900 3250 8325 3250
-Wire Wire Line
-	8325 3250 8325 3200
-Connection ~ 7900 3250
-Wire Wire Line
-	7900 3250 7900 2500
-Text Notes 8650 3150 0    50   ~ 0
+Text Notes 9350 2700 0    50   ~ 0
 Debug_PL Anschluss
 Text Notes 9950 5500 0    50   ~ 0
 J7\n\nJ12\n\nJ17\n\nJ20
@@ -1278,4 +1240,71 @@ Text Notes 9600 5500 0    50   ~ 0
 J8\n\nJ13\n\nJ18\n\nJ21
 Text Notes 9275 5500 0    50   ~ 0
 J9\n\nJ14\n\nJ19\n\nJ22\n
+Wire Wire Line
+	8000 2600 8000 3250
+Wire Wire Line
+	7900 2500 7900 3300
+Wire Wire Line
+	8150 2800 8150 3100
+Wire Wire Line
+	8350 3000 8050 3000
+Connection ~ 8050 3000
+Wire Wire Line
+	8350 3100 8150 3100
+Connection ~ 8150 3100
+Wire Wire Line
+	8150 3100 8150 3200
+Wire Wire Line
+	8000 3250 8350 3250
+Wire Wire Line
+	8350 3250 8350 3200
+Connection ~ 8000 3250
+Wire Wire Line
+	8000 3250 8000 4050
+Connection ~ 7900 3300
+Wire Wire Line
+	7900 3300 7900 3750
+$Comp
+L power:VDD #PWR019
+U 1 1 5E6617F8
+P 8850 2950
+F 0 "#PWR019" H 8850 2800 50  0001 C CNN
+F 1 "VDD" H 8867 3123 50  0000 C CNN
+F 2 "" H 8850 2950 50  0001 C CNN
+F 3 "" H 8850 2950 50  0001 C CNN
+	1    8850 2950
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR021
+U 1 1 5E662C51
+P 8950 3150
+F 0 "#PWR021" H 8950 2900 50  0001 C CNN
+F 1 "GND" H 8955 2977 50  0000 C CNN
+F 2 "" H 8950 3150 50  0001 C CNN
+F 3 "" H 8950 3150 50  0001 C CNN
+	1    8950 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_02x03_Counter_Clockwise J23
+U 1 1 5E69254C
+P 8550 3100
+F 0 "J23" H 8600 3417 50  0000 C CNN
+F 1 "Conn_02x03_Counter_Clockwise" H 8600 3326 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_2x03_P2.54mm_Vertical" H 8550 3100 50  0001 C CNN
+F 3 "~" H 8550 3100 50  0001 C CNN
+	1    8550 3100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8850 3300 8850 3200
+Wire Wire Line
+	7900 3300 8850 3300
+Wire Wire Line
+	8850 2950 8850 3000
+Wire Wire Line
+	8850 3100 8950 3100
+Wire Wire Line
+	8950 3100 8950 3150
 $EndSCHEMATC
