@@ -1,4 +1,5 @@
 EESchema Schematic File Version 4
+LIBS:Motor_Shield-cache
 EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
@@ -443,205 +444,20 @@ Wire Wire Line
 Wire Wire Line
 	6800 3850 6600 3850
 Wire Wire Line
-	6600 4050 6800 4050
-Wire Wire Line
-	6800 4050 6800 4150
-Wire Wire Line
-	6800 4150 6600 4150
-Wire Wire Line
-	6800 3000 6850 3000
-Wire Wire Line
 	8050 3000 8050 2700
 Wire Wire Line
 	8050 2700 8150 2700
 Connection ~ 6800 3000
 Wire Wire Line
-	6800 3200 7200 3200
-Wire Wire Line
-	8150 3200 8150 2800
+	8150 3200 8150 3100
 Connection ~ 6800 3200
 Wire Wire Line
-	6800 3750 7550 3750
-Wire Wire Line
-	7900 3750 7900 2500
+	7900 3750 7900 3250
 Wire Wire Line
 	7900 2500 8150 2500
 Connection ~ 6800 3750
 Wire Wire Line
-	8000 4050 8000 2600
-Wire Wire Line
 	8000 2600 8150 2600
-Wire Wire Line
-	6800 4050 7900 4050
-Connection ~ 6800 4050
-$Comp
-L Device:LED D4
-U 1 1 5E5AB89E
-P 6850 4450
-F 0 "D4" V 6889 4333 50  0000 R CNN
-F 1 "LED" V 6798 4333 50  0000 R CNN
-F 2 "Diode_SMD:D_1206_3216Metric" H 6850 4450 50  0001 C CNN
-F 3 "~" H 6850 4450 50  0001 C CNN
-	1    6850 4450
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R22
-U 1 1 5E5AD872
-P 6850 4850
-F 0 "R22" V 6643 4850 50  0000 C CNN
-F 1 "2.2k" V 6734 4850 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 6780 4850 50  0001 C CNN
-F 3 "~" H 6850 4850 50  0001 C CNN
-	1    6850 4850
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR019
-U 1 1 5E5AF353
-P 6850 5100
-F 0 "#PWR019" H 6850 4850 50  0001 C CNN
-F 1 "GND" H 6855 4927 50  0000 C CNN
-F 2 "" H 6850 5100 50  0001 C CNN
-F 3 "" H 6850 5100 50  0001 C CNN
-	1    6850 5100
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6850 5100 6850 5000
-Wire Wire Line
-	6850 4700 6850 4600
-$Comp
-L Device:LED D5
-U 1 1 5E5B4D77
-P 7200 4450
-F 0 "D5" V 7239 4333 50  0000 R CNN
-F 1 "LED" V 7148 4333 50  0000 R CNN
-F 2 "Diode_SMD:D_1206_3216Metric" H 7200 4450 50  0001 C CNN
-F 3 "~" H 7200 4450 50  0001 C CNN
-	1    7200 4450
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R23
-U 1 1 5E5B4D7D
-P 7200 4850
-F 0 "R23" V 6993 4850 50  0000 C CNN
-F 1 "2.2k" V 7084 4850 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 7130 4850 50  0001 C CNN
-F 3 "~" H 7200 4850 50  0001 C CNN
-	1    7200 4850
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR021
-U 1 1 5E5B4D83
-P 7200 5100
-F 0 "#PWR021" H 7200 4850 50  0001 C CNN
-F 1 "GND" H 7205 4927 50  0000 C CNN
-F 2 "" H 7200 5100 50  0001 C CNN
-F 3 "" H 7200 5100 50  0001 C CNN
-	1    7200 5100
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7200 5100 7200 5000
-Wire Wire Line
-	7200 4700 7200 4600
-$Comp
-L Device:LED D6
-U 1 1 5E5B6E4B
-P 7550 4450
-F 0 "D6" V 7589 4333 50  0000 R CNN
-F 1 "LED" V 7498 4333 50  0000 R CNN
-F 2 "Diode_SMD:D_1206_3216Metric" H 7550 4450 50  0001 C CNN
-F 3 "~" H 7550 4450 50  0001 C CNN
-	1    7550 4450
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R24
-U 1 1 5E5B6E51
-P 7550 4850
-F 0 "R24" V 7343 4850 50  0000 C CNN
-F 1 "2.2k" V 7434 4850 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 7480 4850 50  0001 C CNN
-F 3 "~" H 7550 4850 50  0001 C CNN
-	1    7550 4850
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR023
-U 1 1 5E5B6E57
-P 7550 5100
-F 0 "#PWR023" H 7550 4850 50  0001 C CNN
-F 1 "GND" H 7555 4927 50  0000 C CNN
-F 2 "" H 7550 5100 50  0001 C CNN
-F 3 "" H 7550 5100 50  0001 C CNN
-	1    7550 5100
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7550 5100 7550 5000
-Wire Wire Line
-	7550 4700 7550 4600
-$Comp
-L Device:LED D7
-U 1 1 5E5B9165
-P 7900 4450
-F 0 "D7" V 7939 4333 50  0000 R CNN
-F 1 "LED" V 7848 4333 50  0000 R CNN
-F 2 "Diode_SMD:D_1206_3216Metric" H 7900 4450 50  0001 C CNN
-F 3 "~" H 7900 4450 50  0001 C CNN
-	1    7900 4450
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R25
-U 1 1 5E5B916B
-P 7900 4850
-F 0 "R25" V 7693 4850 50  0000 C CNN
-F 1 "2.2k" V 7784 4850 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 7830 4850 50  0001 C CNN
-F 3 "~" H 7900 4850 50  0001 C CNN
-	1    7900 4850
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR025
-U 1 1 5E5B9171
-P 7900 5100
-F 0 "#PWR025" H 7900 4850 50  0001 C CNN
-F 1 "GND" H 7905 4927 50  0000 C CNN
-F 2 "" H 7900 5100 50  0001 C CNN
-F 3 "" H 7900 5100 50  0001 C CNN
-	1    7900 5100
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7900 5100 7900 5000
-Wire Wire Line
-	7900 4700 7900 4600
-Wire Wire Line
-	6850 4300 6850 3000
-Connection ~ 6850 3000
-Wire Wire Line
-	6850 3000 8050 3000
-Wire Wire Line
-	7200 4300 7200 3200
-Connection ~ 7200 3200
-Wire Wire Line
-	7200 3200 8150 3200
-Wire Wire Line
-	7550 4300 7550 3750
-Connection ~ 7550 3750
-Wire Wire Line
-	7550 3750 7900 3750
-Wire Wire Line
-	7900 4300 7900 4050
-Connection ~ 7900 4050
-Wire Wire Line
-	7900 4050 8000 4050
 $Comp
 L power:GND #PWR015
 U 1 1 5E5D022E
@@ -1076,12 +892,6 @@ Text Notes 4800 5200 0    50   ~ 0
 SDO
 Text Notes 4450 6400 0    50   ~ 0
 SPI Motor
-Text Notes 9250 5500 0    50   ~ 0
-R3\n\nR6\n\nR9\n\nR12
-Text Notes 9600 5500 0    50   ~ 0
-R2\n\nR5\n\nR8\n\nR11
-Text Notes 9950 5500 0    50   ~ 0
-R1\n\nR4\n\nR7\n\nR10
 Text Notes 9350 5800 1    50   ~ 0
 No.3
 Text Notes 9700 5800 1    50   ~ 0
@@ -1412,4 +1222,60 @@ Wire Wire Line
 	1750 3950 1750 4200
 Wire Wire Line
 	1750 2150 1750 2400
+Wire Wire Line
+	6800 4150 6600 4150
+Wire Wire Line
+	6600 4050 6800 4050
+Connection ~ 6800 4050
+Wire Wire Line
+	6800 4050 6800 4150
+Wire Wire Line
+	6800 4050 8000 4050
+Wire Wire Line
+	6800 3750 7900 3750
+Wire Wire Line
+	6800 3200 8150 3200
+Wire Wire Line
+	6800 3000 8050 3000
+$Comp
+L Connector:Conn_01x04_Female J23
+U 1 1 5E62AB36
+P 8525 3100
+F 0 "J23" H 8553 3076 50  0000 L CNN
+F 1 "Conn_01x04_Female" H 8553 2985 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 8525 3100 50  0001 C CNN
+F 3 "~" H 8525 3100 50  0001 C CNN
+	1    8525 3100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8050 3000 8325 3000
+Connection ~ 8050 3000
+Wire Wire Line
+	8150 3100 8325 3100
+Connection ~ 8150 3100
+Wire Wire Line
+	8150 3100 8150 2800
+Wire Wire Line
+	8325 3300 8000 3300
+Wire Wire Line
+	8000 2600 8000 3300
+Connection ~ 8000 3300
+Wire Wire Line
+	8000 3300 8000 4050
+Wire Wire Line
+	7900 3250 8325 3250
+Wire Wire Line
+	8325 3250 8325 3200
+Connection ~ 7900 3250
+Wire Wire Line
+	7900 3250 7900 2500
+Text Notes 8650 3150 0    50   ~ 0
+Debug_PL Anschluss
+Text Notes 9950 5500 0    50   ~ 0
+J7\n\nJ12\n\nJ17\n\nJ20
+Text Notes 9600 5500 0    50   ~ 0
+J8\n\nJ13\n\nJ18\n\nJ21
+Text Notes 9275 5500 0    50   ~ 0
+J9\n\nJ14\n\nJ19\n\nJ22\n
 $EndSCHEMATC
