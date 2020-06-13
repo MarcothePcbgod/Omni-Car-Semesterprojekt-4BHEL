@@ -105,14 +105,14 @@ abt=0
 def key_press(event):
     key = event.char
     if(key == 'w'): 
-        #Forward()
-        myButtonForward.configure(state=DISABLED)
-        if __name__ == '__main__':
-            t =threading.Timer(0.1,timeForward)
-            t.start()
-
+            Forward()
+            myButtonForward.configure(state=DISABLED)
+            if __name__ == '__main__':
+                t =threading.Timer(0.1,timeForward)
+                t.start()
+       
     elif(key == 's'):
-      #  Backward()
+        Backward()
         myButtonBackward.configure(state=DISABLED)
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeBackward)
@@ -131,6 +131,8 @@ def key_press(event):
         if __name__ == '__main__':
             t =threading.Timer(0.1,timeRotateRight)
             t.start()
+
+        
 #-------------------------------------------------------------------------------- Erstellt Pop-Up Fenster
 def popupNoCon(msg):
     def close_window():
