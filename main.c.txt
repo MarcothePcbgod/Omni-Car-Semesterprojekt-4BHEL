@@ -52,9 +52,9 @@ L6474_Init_t gL6474InitParams =
 
 /* Private function prototypes -----------------------------------------------*/
 static void MyFlagInterruptHandler(void);
-GPIO_InitTypeDef GPIO_InitStructure;
+GPIO_InitTypeDef GPIO_InitStruct = {0};
 /* Private functions ---------------------------------------------------------*/
-
+//#define __HAL_RCC_GPIOC_CLK_ENABLE()
 /**
   * @brief  Main program
   * @param  None
@@ -64,8 +64,6 @@ int main(void)
 {
   int32_t pos;
   uint16_t mySpeed;
-  int stateOfPin3 = 0;
-  int stateOfPin4 = 0;
   /* STM32xx HAL library initialization */
   HAL_Init();
   
@@ -96,46 +94,65 @@ int main(void)
   BSP_MotorControl_AttachErrorHandler(Error_Handler);
   
   /* GPIO Pin init */
-	GPIO_InitStructure.Pin   = GPIO_PIN_3;
-	GPIO_InitStructure.Mode  = GPIO_MODE_INPUT;
-	GPIO_InitStructure.Pull  = GPIO_PULLDOWN;
-	HAL_GPIO_Init(GPIOC, &GPIO_InitStructure);
+ // __HAL_RCC_GPIOA_CLK_ENABLE();
+  do {
+	  __IO uint32_t tmpreg;
+	  SET_BIT(RCC->AHBENR, RCC_AHBENR_GPIOAEN);
+	  /* Delay after an RCC peripheral clock enabling */
+	  tmpreg = READ_BIT(RCC->AHBENR, RCC_AHBENR_GPIOAEN);
+	  UNUSED(tmpreg);
+	} while(0U);
 
-	GPIO_InitStructure.Pin   = GPIO_PIN_2;
-	GPIO_InitStructure.Mode  = GPIO_MODE_INPUT;
-	GPIO_InitStructure.Pull  = GPIO_PULLDOWN;
-	HAL_GPIO_Init(GPIOC, &GPIO_InitStructure);
+  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /*                           */
-  
+
   /* Infinite loop */
   while(1)
   {
-	stateOfPin3 = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_3);
-    stateOfPin4 = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_4);
+	  int StateOfPinA0 = 0;
+	  int StateOfPinA1 = 0;
 
-    if (stateOfPin3 == 1)
+	  StateOfPinA0 = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0);
+	  StateOfPinA1 = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1);
+
+    if (StateOfPinA0 == 1)
     {
     	do{
     	  /* Move device 0 of 1 step in the FORWARD direction*/
     	  BSP_MotorControl_Move(0, FORWARD, 1);
     	  /* Wait for the motor of device 0 ends moving */
     	  BSP_MotorControl_WaitWhileActive(0);
-    	  stateOfPin3 = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_3);
+    	  StateOfPinA0 = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0);
     	}
-    	while(stateOfPin3 != 1);
+    	while(StateOfPinA0 == 1);
     } else
     {
-    	if(stateOfPin4 == 1)
+    	if(StateOfPinA1 == 1)
     	{
     		do{
     		 /* Move device 0 of 1 steps in the BACKWARD direction*/
     		 BSP_MotorControl_Move(0, BACKWARD, 1);
     		 /* Wait for the motor of device 0 ends moving */
     		 BSP_MotorControl_WaitWhileActive(0);
-    		 stateOfPin4 = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_4);
+    		 StateOfPinA1 = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1);
     		}
-    		while(stateOfPin4 != 1);
+    		while(StateOfPinA1 == 1);
     	}
+    	StateOfPinA0 = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0);
+		StateOfPinA1 = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1);
+    }
+
+    if (StateOfPinA0 != 1 && StateOfPinA1 != 1){
+    	BSP_MotorControl_HardStop(0);
+    	do{
+    		StateOfPinA0 = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0);
+		    StateOfPinA1 = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1);
+    	}while(StateOfPinA0 != 1 && StateOfPinA1 != 1);
     }
   }
 }
